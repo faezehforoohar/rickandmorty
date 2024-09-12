@@ -20,6 +20,7 @@ export const fetchData = {
     try {
       const response = await fetch(url);
       if (!response.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const error: any = new Error("Failed to fetch data");
         error.status = response.status;
         throw error;

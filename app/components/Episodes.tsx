@@ -20,9 +20,12 @@ export default function Episodes({ episodes }: EpisodesProps) {
       </thead>
       <tbody>
         {episodes.map((episode) => {
-          let findEpisode = episodesData?.find((item) => item.url === episode);
+          const findEpisode = episodesData?.find(
+            (item) => item.url === episode
+          );
+
           if (findEpisode) {
-            return <EpisodeDetails episode={findEpisode} />;
+            return <EpisodeDetails key={episode} episode={findEpisode} />;
           }
         })}
       </tbody>

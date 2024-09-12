@@ -14,7 +14,7 @@ export default function useEpisode() {
   };
 
   const getIdsArray = (episodes: string[]) => {
-    let ids: string[] = [];
+    const ids: string[] = [];
 
     episodes.map((episode) => {
       const id = episode.replace(`${url}/episode/`, "");
@@ -27,7 +27,7 @@ export default function useEpisode() {
 
   const toggleRows = (character: Character) => {
     const { id, episode } = character;
-    let arrayIds = [...visibleRows];
+    const arrayIds = [...visibleRows];
 
     if (isVisible(id)) {
       setVisibleRows(arrayIds.filter((item) => item !== id));
@@ -56,10 +56,11 @@ export default function useEpisode() {
 
       const response = await apiServices.fetchEpisodes(query);
 
-      setEpisodesData([...episodesData, ...response] || []);
+      setEpisodesData([...episodesData, ...(response || [])]);
     } catch (error) {
       console.error("Failed to fetch episodes:", error);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((error as any).status === 404) {
         setError(new Error("Episode not found"));
       } else {

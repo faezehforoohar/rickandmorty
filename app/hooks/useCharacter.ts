@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { apiServices, IFilterCharacter } from "../services";
-import { Character, CharacterResponse, Episode, Info } from "../types";
+import { Character, CharacterResponse, Info } from "../types";
 import { url } from "../constants";
 
 export default function useCharacter() {
@@ -33,11 +33,12 @@ export default function useCharacter() {
 
       const response = await apiServices.fetchCharacters(query);
 
-      setCharacters([...response.results] || []);
+      setCharacters(response.results || []);
       setInfo(response.info);
     } catch (error) {
       console.error("Failed to fetch characters:", error);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((error as any).status === 404) {
         setError(new Error("Character not found"));
       } else {
@@ -52,6 +53,7 @@ export default function useCharacter() {
 
   useEffect(() => {
     fetchCharacters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
   return {
